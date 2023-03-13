@@ -33,7 +33,7 @@ const Sidebar = () => {
   console.log('playlist --->', playlists);
 
   return (
-    <div className="text-gray-500 p-4 text-sm lg:text-sm border-r border-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex">
+    <div className="text-gray-500 p-4 text-sm lg:text-sm border-r border-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex pb-36">
       <div className="space-y-4">
         {/* <button
           className="flex items-center space-x-2 hover:text-white"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import useSpotify from '../../hooks/useSpotify';
 import { currentSongState, isPlayingState } from '../../atoms/songAtom';
@@ -12,6 +12,7 @@ const Song = ({ order, track }) => {
   
   const [currentTrack, setCurrentTrack] = useRecoilState(currentSongState);
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
+  // const [volume, setVolume] = useState(50)
 
   const playSong = () => {
     spotifyApi.play({ // play a song
@@ -20,6 +21,7 @@ const Song = ({ order, track }) => {
     setCurrentTrack(track.track.uri);
     setIsPlaying(true);
   }
+  
 
   const millisToMinsAndSecs = (millis) => {
     const minutes = Math.floor(millis / 60000); // 1 minute = 60000 milliseconds

@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import Sidebar from '../components/Sidebar/Sidebar';
-import Center from '../components/Center/Center';
+import {Center, Sidebar, Player } from '../components/index';
 import { getSession } from 'next-auth/react';
 
 const Home = () => {
@@ -16,7 +15,9 @@ const Home = () => {
         <Sidebar />
         <Center />
       </main>
-      <div> {/* player/footer */}</div>
+      <div className='sticky bottom-0'> 
+        <Player />
+      </div>
     </div>
   );
 };

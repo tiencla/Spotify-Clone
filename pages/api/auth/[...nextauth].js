@@ -1,20 +1,22 @@
 import NextAuth from 'next-auth';
 import SpotifyProvider from 'next-auth/providers/spotify';
-import spotifyApi, { LOGIN_URL } from '../../../lib/spotify';
+import SpotifyApi, { LOGIN_URL } from '../../../lib/spotify';
 
 const refreshAccessToken = async (token) => {
+  console.log('token --->', token)
     try {
-        spotifyApi.setAccessToken(token.accessToken);
-        spotifyApi.setRefreshToken(token.refreshToken);
-        const {data: refreshedToken} = await spotifyApi.refreshAccessToken();
+        SpotifyApi.setAccessToken(token.accessToken);
+        SpotifyApi.setAccessToken(token.refreshToken);
+        console.log('refreshing token', token)
+
+        const {body: refreshedToken} = await SpotifyApi.refreshAccessToken();
         console.log('refreshedToken --->', refreshedToken);
         return {
             ...token,
             accessToken: refreshedToken.access_token,
-            accessTokenExpires: Date.now() + (refreshedToken.expires_in * 1000), // 1 hour in ms 
+            accessTokenExpires: Date.now() + refreshToken.expires_in * 1000, // 1 hour in ms 
             refreshToken: refreshedToken.refresh_token ?? token.refreshToken, //* if refresh token is not returned, use the previous one
         }
-
     } catch (error) {
         console.log(error);
         return {
@@ -24,7 +26,7 @@ const refreshAccessToken = async (token) => {
     }
 }
 
-export const authOptions = {
+export default NextAuth({
   // Configure one or more authentication providers
   providers: [
     SpotifyProvider({
@@ -34,18 +36,20 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
-  secret: process.env.SECRET,
+  secret: process.env.JWT_SECRET,
   pages: {
     signIn: '/login',
   },
-  callbacks: { //! https://next-auth.js.org/tutorials/refresh-token-rotation
+  // ! https://next-auth.js.org/tutorials/refresh-token-rotation
+  callbacks: { 
     async jwt({ token, account, user }) {
         if (account && user) {
             return {
                 ...token,
-                accessToken: account.accessToken,
-                refreshToken: account.refreshToken,
-                username: user.display_name,
+                accessToken: account.access_token,
+                refreshToken: account.refresh_token,
+                // username: user.display_name,
+                username: account.providerAccountId,
                 accessTokenExpires: account.expires_at * 1000, // convert to ms 
             }
         }
@@ -66,7 +70,5 @@ export const authOptions = {
             return session;
     }
   },
-  // A database is optional, but required to persist accounts in a database
-};
+});
 
-export default NextAuth(authOptions);

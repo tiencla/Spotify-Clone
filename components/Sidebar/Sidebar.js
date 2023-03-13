@@ -15,9 +15,9 @@ import useSpotify from '../../hooks/useSpotify';
 
 const Sidebar = () => {
   const { data: session, status } = useSession();
-  console.log('session --->', session); //* gives array object user info if you log in
+  // console.log('session --->', session); //* gives array object user info if you log in
   const spotifyApi = useSpotify();
-  console.log('spotifyApi --->', spotifyApi) //* gives access token if you log in
+  // console.log('spotifyApi --->', spotifyApi) //* gives access token if you log in
 
   const [playlists, setPlaylists] = useState([]);
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);

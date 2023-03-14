@@ -3,26 +3,27 @@ import { SpeakerWaveIcon } from '@heroicons/react/24/outline';
 import { BackwardIcon, PauseIcon, PlayIcon, ForwardIcon, ArrowsRightLeftIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react';
-import {debounce} from 'lodash';
 import { useRecoilState } from 'recoil';
-import { currentTrackState, isPlayingState } from '../../atoms/songAtom';
+import { currentTrackIdState, isPlayingState } from '../../atoms/songAtom';
 import useSpotify from '../../hooks/useSpotify';
 import useSongInfo from '../../hooks/useSongInfo';
+import {debounce} from 'lodash';
 
 const Player = () => {
   const spotifyApi = useSpotify();
   const { data: session, status } = useSession();
 
-  const [currentTrack, setCurrentTrack] = useRecoilState(currentTrackState);
+  const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
   const [volume, setVolume] = useState(50);
-  const songInfo = useSongInfo(currentTrack);
+  const songInfo = useSongInfo(currentTrackId);
+  // console.log('songInfo --->', songInfo)
 
   const fetchCurrentSong = () => {
     if (!songInfo) {
       spotifyApi.getMyCurrentPlayingTrack().then((data) => {
         console.log('playing track --->', data.body?.item?.id);
-        setCurrentTrack(data.body?.item?.id);
+        setCurrentTrackId(data.body?.item?.id);
 
         spotifyApi.getMyCurrentPlaybackState().then((data) => {
           setIsPlaying(data.body?.is_playing);
@@ -44,11 +45,11 @@ const Player = () => {
   };
 
   useEffect(() => {
-    if (spotifyApi.getAccessToken() && !currentTrack) {
+    if (spotifyApi.getAccessToken() && !currentTrackId) {
       fetchCurrentSong();
       setVolume(50);
     }
-  }, [currentTrack, spotifyApi, session]);
+  }, [currentTrackId, spotifyApi, session]);
 
   //* Created this to delay the volume change to avoid executing too many request
   const debouncedAdjustVolume = useCallback(
@@ -74,7 +75,7 @@ const Player = () => {
     <div className="h-24 bg-gradient-to-b from-gray-900 to-black text-white grid grid-cols-3 text-sm md:text-base px-2 md:px-8">
       {/* Left side */}
       <div className="flex items-center space-x-4">
-        <img className="hidden md:inline h-10 w-10" src={songInfo?.album?.images?.[0].url} alt="" />
+        <img className="hidden md:inline h-12 w-12" src={songInfo?.album?.images?.[0].url} alt="" />
         <div>
           <h4>{songInfo?.name}</h4>
           <p>{songInfo?.artists?.[0]?.name}</p>

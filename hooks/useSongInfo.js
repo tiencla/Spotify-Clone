@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { currentTrackState } from '../atoms/songAtom';
+import { currentTrackIdState } from '../atoms/songAtom';
 import useSpotify from './useSpotify';
 
 const useSongInfo = () => {
   const spotifyApi = useSpotify();
-  const [currentTrack, setCurrentTrack] = useRecoilState(currentTrackState);
+  const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
   const [songInfo, setSongInfo] = useState(null);
+  console.log('songInfo --->', songInfo)
 
-//   console.log('access token --->', spotifyApi.getAccessToken())
+  // console.log('access token --->', spotifyApi.getAccessToken())
   // useEffect(() => {
   //     const fetchSongInfo = async () => {
   //         if (currentTrack) {
@@ -21,21 +22,29 @@ const useSongInfo = () => {
 
   useEffect(() => {
     const fetchSongInfo = async () => {
-      if (currentTrack) {
-        const trackInfo = await fetch(`https://api.spotify.com/v1/tracks/${currentTrack}`, {
-          headers: {
-            Authorization: `Bearer ${spotifyApi.getAccessToken()}`, //* Bearer is a type of token that is used to authenticate a user
-          },
-        });
-        const res = await trackInfo.json();
-        setSongInfo(res);
-        console.log('trackInfo --->', trackInfo)
-        console.log('res --->', res)
-        console.log('currentTrack --->', currentTrack)
+      if (currentTrackId) {
+        try {
+          const trackInfo = await fetch(
+            `https://api.spotify.com/v1/tracks/${currentTrackId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
+              },
+            }
+          );
+          const res = await trackInfo.json();
+          setSongInfo(res);
+          console.log('trackInfo --->', trackInfo)
+          console.log('res --->', res)
+          console.log('currentTrack --->', currentTrackId)
+        } catch (error) {
+          console.error('Error fetching track info:', error);
+        }
       }
     };
     fetchSongInfo();
-  }, [currentTrack, spotifyApi]);
+  }, [currentTrackId, spotifyApi]);
+
 
   return songInfo;
 };

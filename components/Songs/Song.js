@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import useSpotify from '../../hooks/useSpotify';
-import { currentTrackState, isPlayingState } from '../../atoms/songAtom';
+import { currentTrackIdState, isPlayingState } from '../../atoms/songAtom';
 
 const Song = ({ order, track }) => {
   const spotifyApi = useSpotify();
@@ -10,15 +10,15 @@ const Song = ({ order, track }) => {
   const artistsName = track.track.artists[0].name;
   const albumName = track.track.album.name;
   
-  const [currentTrack, setCurrentTrack] = useRecoilState(currentTrackState);
+  const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
-  // const [volume, setVolume] = useState(50)
+
 
   const playSong = () => {
     spotifyApi.play({ // play a song
       uris: [track.track.uri], // pass in the uri of the song
     });
-    setCurrentTrack(track.track.uri);
+    setCurrentTrackId(track.track.id);
     setIsPlaying(true);
   }
   

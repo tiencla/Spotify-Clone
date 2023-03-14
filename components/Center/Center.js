@@ -66,7 +66,7 @@ const Center = () => {
         </div>
       </header>
       <div className={
-          `h-10 w-52 rounded-sm bg-[#2e2e2e] text-white absolute right-8 top-[4.3rem] flex-col` +
+          `h-10 w-52 rounded-sm bg-[#2e2e2e] text-white absolute right-8 top-[4.2rem] flex-col` +
           ' ' +
           `${isActive ? 'hidden' : 'flex'}`
         }>

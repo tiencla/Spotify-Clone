@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 // const dev = process.env.NODE_ENV !== 'production';
-
 // export const server = dev ? 'http://localhost:3000' : 'https://spotify-clone-fawn-seven.vercel.app/';
 
 export async function middleware(req) {

@@ -13,11 +13,6 @@ export async function middleware(req) {
   // Get the current pathname
   const { pathname } = req.nextUrl.clone();
 
-  // const url = req.nextUrl.clone();
-  // if (pathname.startsWith('/_next')) {
-  //   return NextResponse.next();
-  // }
-
   // Allow requests to the auth API endpoint and requests from authenticated users
   if (pathname.startsWith('/api/auth') || token) {
     return NextResponse.next();

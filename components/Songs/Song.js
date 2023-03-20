@@ -9,26 +9,25 @@ const Song = ({ order, track }) => {
   const trackName = track.track.name;
   const artistsName = track.track.artists[0].name;
   const albumName = track.track.album.name;
-  
+
   const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
 
-
   const playSong = () => {
-    spotifyApi.play({ // play a song
+    spotifyApi.play({
+      // play a song
       uris: [track.track.uri], // pass in the uri of the song
     });
     setCurrentTrackId(track.track.id);
     setIsPlaying(true);
-  }
-  
+  };
 
   const millisToMinsAndSecs = (millis) => {
     const minutes = Math.floor(millis / 60000); // 1 minute = 60000 milliseconds
     const seconds = ((millis % 60000) / 1000).toFixed(0); // 1 second = 1000 milliseconds
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`; 
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     // return seconds === 60 ? minutes + 1 + ':00' : minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-  }
+  };
 
   return (
     <div className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900 rounded-lg cursor-pointer" onClick={playSong}>
@@ -40,7 +39,7 @@ const Song = ({ order, track }) => {
           // alt={trackName}
         />
         <div>
-          <p className='w-36 lg:w-64 text-white truncate'>{trackName}</p>
+          <p className="w-36 lg:w-64 text-white truncate">{trackName}</p>
           <p className="w-40 text-gray-400">{artistsName}</p>
         </div>
       </div>

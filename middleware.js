@@ -38,3 +38,7 @@ export async function middleware(req) {
   //   return NextResponse.redirect(`${server}/login`);
   // }
 }
+
+export const config = {
+  matcher: '/',
+};

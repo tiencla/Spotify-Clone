@@ -1,6 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { useRouter } from 'next/router';
 
 // const dev = process.env.NODE_ENV !== 'production';
 
@@ -9,14 +8,10 @@ import { useRouter } from 'next/router';
 export async function middleware(req) {
   //* TOKEN WILL EXIST IF USER IS LOGGED IN
   const token = await getToken({ req, secret: process.env.JWT_SECRET });
+  
 
   // Get the current pathname
-  const { pathname } = req.nextUrl.clone();
-
-  // const url = req.nextUrl.clone();
-  // if (pathname.startsWith('/_next')) {
-  //   return NextResponse.next();
-  // }
+  const { pathname } = req.nextUrl;
 
   // Allow requests to the auth API endpoint and requests from authenticated users
   if (pathname.startsWith('/api/auth') || token) {
@@ -38,3 +33,7 @@ export async function middleware(req) {
   //   return NextResponse.redirect(`${server}/login`);
   // }
 }
+
+// export const config = {
+//   matcher: '/',
+// };

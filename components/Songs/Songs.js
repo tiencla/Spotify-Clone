@@ -9,7 +9,7 @@ const Songs = () => {
   // console.log('tracks --->', playlist.track.items)
 
   return (
-    <div className='flex flex-col px-8 space-y-1 pb-25 mt-3'>
+    <div className='flex flex-col px-8 space-y-1 pb-25'>
       {playlist?.tracks.items.map((track, i) => (
         <Song key={track.track.id} track={track} order={i} />
       ))}

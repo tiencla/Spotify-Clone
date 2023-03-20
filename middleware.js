@@ -1,6 +1,10 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
+const dev = process.env.NODE_ENV !== 'production';
+
+export const server = dev ? 'http://localhost:3000' : 'https://your_deployment.server.com';
+
 export async function middleware(req) {
   //* TOKEN WILL EXIST IF USER IS LOGGED IN
   const token = await getToken({ req, secret: process.env.JWT_SECRET });
@@ -21,4 +25,5 @@ export async function middleware(req) {
   if(!token && pathname !== '/login') {
     return NextResponse.redirect('/login');
   }
+  
 }

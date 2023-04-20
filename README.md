@@ -90,7 +90,7 @@ CLIENT_SECRET and CLIENT_ID you get from Spotify Dashboard
 Clone the project
 
 ```bash
-  git clone https://github.com/SashenJayathilaka/Spotify-Clone.git
+  git clone https://github.com/tiencla/Spotify-Clone.git
 ```
 
 Install dependencies

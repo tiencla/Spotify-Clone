@@ -17,6 +17,10 @@
 ### :camera: Screenshots
 <div align="center">
 <!-- ADD VIDEO FILE -->
+
+https://github.com/tiencla/Spotify-Clone/assets/105801250/4754fed9-d9be-4925-9418-56f0d29dcd02
+
+
 </div>
 
 ### :space_invader: Tech Stack
